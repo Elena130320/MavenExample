@@ -39,6 +39,11 @@ public class AccuWeatherProvider implements WeatherProvider {
         }
     }
 
+    @Override
+    public WeatherProvider getAllFromDb() throws IOException {
+        return null;
+    }
+
     public String detectCityKey() throws IOException {
         String selectedCity = ApplicationGlobalState.getInstance().getSelectedCity();
 
