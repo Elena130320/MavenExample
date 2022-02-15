@@ -1,6 +1,8 @@
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+
+
 @Data
 public class Night {
     @Override
@@ -13,6 +15,7 @@ public class Night {
                 ", PrecipitationIntensity='" + precipitationIntensity + '\'' +
                 '}';
     }
+
 
     @JsonProperty(value = "Icon")
     private float icon;

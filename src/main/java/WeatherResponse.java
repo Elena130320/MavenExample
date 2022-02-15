@@ -4,11 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class WeatherResponse {
 
+public class WeatherResponse {
     @Override
     public String toString() {
         return "WeatherResponse{" +
@@ -19,6 +20,7 @@ public class WeatherResponse {
                 ", Night=" + night +
                 '}';
     }
+
 
     @JsonProperty(value = "WeatherText")
     private String weatherText;

@@ -17,6 +17,8 @@ public class Temperature {
     }
 
 
+
+
     @JsonProperty(value = "Metric")
     private Metric metric;
 

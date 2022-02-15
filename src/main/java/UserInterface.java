@@ -26,6 +26,7 @@ public void runApplication() throws SQLException, IOException {
         checkIsExit(result);
 
 
+
         if (result.equals("1") || result.equals("2")) {
             System.out.println("Введите название города на английском языке");
             String city = scanner.nextLine();

@@ -6,6 +6,8 @@ public class WeatherData {
     private Double minTemperature;
     private Double maxTemperature;
 
+
+
     public WeatherData() {
     }
 

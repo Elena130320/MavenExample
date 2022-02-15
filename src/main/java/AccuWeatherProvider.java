@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+
+
 public class AccuWeatherProvider implements WeatherProvider {
     private static final String BASE_HOST = "dataservice.accuweather.com";
     private static final String CURRENT_CONDITIONS_ENDPOINT = "currentconditions";

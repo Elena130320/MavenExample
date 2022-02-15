@@ -3,4 +3,5 @@ public enum Periods {
     FIVE_DAYS,
     BASE,
     ZERO
+
 }
