@@ -1,8 +1,6 @@
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseRepositorySQLiteImpl implements DatabaseRepository {
@@ -15,28 +13,37 @@ public class DatabaseRepositorySQLiteImpl implements DatabaseRepository {
         }
     }
 
-    String filename = null;
-    String createTableQuery = "CREATE TABLE IF NOT EXISTS weather (\n" +
-            "id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-            "city TEXT NOT NULL,\n" +
-            "date_time TEXT NOT NULL,\n" +
-            "weather_text TEXT NOT NULL,\n" +
-            "temperature REAL NOT NULL,\n" +
-            ");";
-    String insertWeatherQuery = "INSERT INTO weather (city, date_time, weather_text, temperature) VALUES (?,?,?,?)";
+    private static Connection connection;
+    private static Statement statement;
+
+    String filename;
+    String createTableQuery = "CREATE TABLE IF NOT EXISTS weather (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "city TEXT NOT NULL, date_time TEXT NOT NULL, weather_dayText TEXT NOT NULL, weather_nightText" +
+            " TEXT NOT NULL, minTemperature REAL NOT NULL, maxTemperature REAL NOT NULL);";
+    String insertWeatherQuery = "INSERT INTO weather (city, date_time, weather_dayText, weather_nightText, minTemperature, maxTemperature) VALUES (?,?,?,?,?,?)";
 
     public DatabaseRepositorySQLiteImpl() {
         filename = ApplicationGlobalState.getInstance().getDbFileName();
     }
 
-    private Connection getConnection() throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + filename);
+    public Connection getConnection() throws SQLException {
+        if (connection == null)
+            connection = DriverManager.getConnection("jdbc:sqlite:" + filename);
         return connection;
     }
 
-    private void createTableIfNotExists() {
-        try (Connection connection = getConnection()) {
-            connection.createStatement().execute(createTableQuery);
+    public Statement getStatement() throws SQLException {
+        if (statement == null)
+            statement = getConnection().createStatement();
+        return statement;
+    }
+    public PreparedStatement getPreparedStatement() throws SQLException{
+        return getConnection().prepareStatement(insertWeatherQuery);
+    }
+
+    public void createTableIfNotExists() {
+        try (Statement statement = getStatement()) {
+            statement.executeUpdate(createTableQuery);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -44,13 +51,17 @@ public class DatabaseRepositorySQLiteImpl implements DatabaseRepository {
 
     @Override
     public boolean saveWeatherData(WeatherData weatherData) throws SQLException {
-        try (Connection connection = getConnection();
-             PreparedStatement saveWeather = connection.prepareStatement(insertWeatherQuery)) {
+        createTableIfNotExists();
+        try (PreparedStatement saveWeather = getPreparedStatement()) {
             saveWeather.setString(1, weatherData.getCity());
             saveWeather.setString(2, weatherData.getLocalDate());
-            saveWeather.setString(3, weatherData.getText());
-            saveWeather.setDouble(4, weatherData.getTemperature());
+            saveWeather.setString(3, weatherData.getDayText());
+            saveWeather.setString(4, weatherData.getNightText());
+            saveWeather.setDouble(5, weatherData.getMinTemperature());
+            saveWeather.setDouble(6, weatherData.getMaxTemperature());
+
             return saveWeather.execute();
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -58,7 +69,33 @@ public class DatabaseRepositorySQLiteImpl implements DatabaseRepository {
     }
 
     @Override
-    public List<WeatherData> getAllSavedData() throws IOException {
-        throw new IOException("Not implemented exception");
+    public List<WeatherData> getAllSavedData() throws SQLException {
+
+        ResultSet resultSet = getConnection().createStatement().executeQuery("SELECT * FROM weather");
+        List<WeatherData> weatherDataList = new ArrayList<WeatherData>();
+        while (resultSet.next()) {
+            weatherDataList.add(new WeatherData(resultSet.getString(2), resultSet.getString(3),  resultSet.getString(4),
+                    resultSet.getString(5), resultSet.getDouble(6), resultSet.getDouble(7)));
+        }
+        return weatherDataList;
+    }
+
+    @Override
+    public void closeConnection () {
+        try {
+            getPreparedStatement().close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        try {
+            getStatement().close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        try {
+            getConnection().close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }

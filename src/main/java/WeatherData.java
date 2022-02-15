@@ -1,48 +1,56 @@
 public class WeatherData {
     private String city;
     private String localDate;
-    private String text;
-    private Double temperature;
+    private String dayText;
+    private String nightText;
+    private Double minTemperature;
+    private Double maxTemperature;
 
     public WeatherData() {
     }
 
-    public WeatherData(String city, String localDate, String text, Double temperature) {
+    public WeatherData(String city, String localDate, String dayText, String nightText, Double minTemperature, Double maxTemperature) {
         this.city = city;
         this.localDate = localDate;
-        this.text = text;
-        this.temperature = temperature;
+        this.dayText = dayText;
+        this.nightText = nightText;
+        this.minTemperature = minTemperature;
+        this.maxTemperature = maxTemperature;
     }
 
     public String getCity() {
         return city;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public String getLocalDate() {
         return localDate;
     }
 
-    public void setLocalDate(String localDate) {
-        this.localDate = localDate;
+    public String getDayText() {
+        return dayText;
     }
 
-    public String getText() {
-        return text;
+    public String getNightText() {
+        return nightText;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public Double getMinTemperature() {
+        return minTemperature;
     }
 
-    public Double getTemperature() {
-        return temperature;
+    public Double getMaxTemperature() {
+        return maxTemperature;
     }
 
-    public void setTemperature(Double temperature) {
-        this.temperature = temperature;
+    @Override
+    public String toString() {
+        return "WeatherData{" +
+                "city='" + city + '\'' +
+                ", localDate='" + localDate + '\'' +
+                ", dayText='" + dayText + '\'' +
+                ", nightText='" + nightText + '\'' +
+                ", minTemperature=" + minTemperature +
+                ", maxTemperature=" + maxTemperature +
+                '}';
     }
 }
