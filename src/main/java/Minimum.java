@@ -12,6 +12,7 @@ public class Minimum {
                 '}';
     }
 
+
     @JsonProperty(value = "Unit")
     private String unit;
 

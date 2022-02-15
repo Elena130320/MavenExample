@@ -13,6 +13,7 @@ public class ApplicationGlobalState {
             INSTANCE = new ApplicationGlobalState();
         }
 
+
         return INSTANCE;
     }
     public String getDbFileName() {

@@ -2,6 +2,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+
 @Data
 public class Metric {
     @Override
@@ -12,6 +13,7 @@ public class Metric {
                 ", Value=" + Value +
                 '}';
     }
+
 
     @JsonProperty(value = "Unit")
     private String Unit;
