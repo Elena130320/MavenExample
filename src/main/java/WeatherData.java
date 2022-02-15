@@ -1,56 +1,48 @@
 public class WeatherData {
     private String city;
     private String localDate;
-    private String dayText;
-    private String nightText;
-    private Double minTemperature;
-    private Double maxTemperature;
+    private String text;
+    private Double temperature;
 
     public WeatherData() {
     }
 
-    public WeatherData(String city, String localDate, String dayText, String nightText, Double minTemperature, Double maxTemperature) {
+    public WeatherData(String city, String localDate, String text, Double temperature) {
         this.city = city;
         this.localDate = localDate;
-        this.dayText = dayText;
-        this.nightText = nightText;
-        this.minTemperature = minTemperature;
-        this.maxTemperature = maxTemperature;
+        this.text = text;
+        this.temperature = temperature;
     }
 
     public String getCity() {
         return city;
     }
 
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     public String getLocalDate() {
         return localDate;
     }
 
-    public String getDayText() {
-        return dayText;
+    public void setLocalDate(String localDate) {
+        this.localDate = localDate;
     }
 
-    public String getNightText() {
-        return nightText;
+    public String getText() {
+        return text;
     }
 
-    public Double getMinTemperature() {
-        return minTemperature;
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public Double getMaxTemperature() {
-        return maxTemperature;
+    public Double getTemperature() {
+        return temperature;
     }
 
-    @Override
-    public String toString() {
-        return "WeatherData{" +
-                "city='" + city + '\'' +
-                ", localDate='" + localDate + '\'' +
-                ", dayText='" + dayText + '\'' +
-                ", nightText='" + nightText + '\'' +
-                ", minTemperature=" + minTemperature +
-                ", maxTemperature=" + maxTemperature +
-                '}';
+    public void setTemperature(Double temperature) {
+        this.temperature = temperature;
     }
 }

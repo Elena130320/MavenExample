@@ -1,32 +1,30 @@
-
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
-
-
-@Data
 public class Temperature {
-    @Override
-    public String toString() {
-        return "Temperature{" +
-                "Metric=" + metric +
-                ", Minimum=" + minimum +
-                ", Maximum=" + maximum +
-                ", Imperial=" + imperial +
-                '}';
-    }
-
-
     @JsonProperty(value = "Metric")
-    private Metric metric;
-
-    @JsonProperty(value = "Minimum")
-    private Minimum minimum;
-
-    @JsonProperty(value = "Maximum")
-    private Maximum maximum;
-
+    private TemperatureUnit metric;
     @JsonProperty(value = "Imperial")
-    private Imperial imperial;
+    private TemperatureUnit imperial;
+
+    @JsonGetter("Metric")
+    public TemperatureUnit getMetric() {
+        return metric;
     }
 
+    @JsonSetter("Metric")
+    public void setMetric(TemperatureUnit metric) {
+        this.metric = metric;
+    }
+
+    @JsonGetter("Imperial")
+    public TemperatureUnit getImperial() {
+        return imperial;
+    }
+
+    @JsonSetter("Imperial")
+    public void setImperial(TemperatureUnit imperial) {
+        this.imperial = imperial;
+    }
+}
